@@ -302,6 +302,11 @@ def flow_chart():
                            active=Member.query.filter_by(status='Active').count(), 
                            cancelled=Member.query.filter_by(status='Cancelled').count())
 
-if __name__ == '__main__':
+# --- System Ignition ---
+
+# Initialize database on startup (Gunicorn/Local)
+with app.app_context():
     init_db()
+
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
