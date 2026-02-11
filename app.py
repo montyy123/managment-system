@@ -211,7 +211,7 @@ def add_member():
 def update_member(id):
     if session.get('role') != 'admin': return redirect(url_for('dashboard'))
         
-    member = Member.query.get_or_404(id)
+    member = db.get_or_404(Member, id)
     
     if request.method == 'POST':
         try:
