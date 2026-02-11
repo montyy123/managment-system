@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="display: flex; justify-content: center; align-items: center; min-height: 75vh; padding: 1rem;">
+    <div class="card"
+        style="width: 100%; max-width: 480px; text-align: center; border: 1px solid rgba(0, 210, 255, 0.2); background: rgba(15, 12, 41, 0.6);">
+        <div class="card-header" style="border-bottom: none; display: block; margin-bottom: 3rem; padding: 0;">
+            <div
+                style="width: 100px; height: 100px; background: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.1); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 2.5rem; transform: rotate(45deg);">
+                <i class="fas fa-user-shield" style="font-size: 3.5rem; color: #00d2ff; transform: rotate(-45deg);"></i>
+            </div>
+            <h2 style="font-size: 2rem; margin-bottom: 0.5rem; letter-spacing: 4px; font-weight: 800; color: #fff;">
+                AUTHENTICATE</h2>
+            <p style="color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Secure
+                Node Terminal Access</p>
+        </div>
+
+        <form method="POST" action="{{ url_for('login') }}">
+            <div class="form-group" style="position: relative;">
+                <input type="text" id="username" name="username" required placeholder="IDENTIFIER"
+                    style="text-align: center; letter-spacing: 4px; font-weight: 600; background: rgba(0, 210, 255, 0.03); border-color: rgba(0, 210, 255, 0.1);">
+            </div>
+            <div class="form-group" style="position: relative;">
+                <input type="password" id="password" name="password" required placeholder="PASSCODE"
+                    style="text-align: center; letter-spacing: 4px; font-weight: 600; background: rgba(0, 210, 255, 0.03); border-color: rgba(0, 210, 255, 0.1);">
+            </div>
+            <button type="submit" class="btn btn-block" id="login-button"
+                style="padding: 1.2rem; font-size: 1.1rem; letter-spacing: 2px; background: linear-gradient(45deg, #00d2ff, #7d5fff); box-shadow: 0 0 30px rgba(0, 210, 255, 0.2);">
+                INITIATE INTERFACE <i class="fas fa-chevron-right" style="margin-left: 10px;"></i>
+            </button>
+        </form>
+
+        <div
+            style="margin-top: 3rem; padding: 1.2rem; background: rgba(0, 210, 255, 0.02); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+            <small style="color: var(--text-dim); letter-spacing: 1px; font-size: 0.7rem;">GUEST BYPASS
+                PROTOCOLS</small><br>
+            <div style="margin-top: 0.8rem; display: flex; justify-content: space-around;">
+                <code style="color: #00d2ff; font-size: 0.85rem;">admin / admin123</code>
+                <code style="color: #00d2ff; font-size: 0.85rem;">user / user123</code>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

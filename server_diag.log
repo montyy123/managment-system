@@ -1,0 +1,57 @@
+2026-02-11 18:32:42,060 - INFO - Database health check: PASSED (All tables reachable)
+ * Serving Flask app 'app'
+ * Debug mode: on
+2026-02-11 18:32:42,089 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.0.144:5001
+2026-02-11 18:32:42,089 - INFO - [33mPress CTRL+C to quit[0m
+2026-02-11 18:32:42,090 - INFO -  * Restarting with stat
+2026-02-11 18:32:42,618 - INFO - Database health check: PASSED (All tables reachable)
+2026-02-11 18:32:42,631 - WARNING -  * Debugger is active!
+2026-02-11 18:32:42,633 - INFO -  * Debugger PIN: 407-841-079
+2026-02-11 18:32:53,472 - INFO - 127.0.0.1 - - [11/Feb/2026 18:32:53] "[32mGET /reports HTTP/1.1[0m" 302 -
+2026-02-11 18:32:53,482 - INFO - 127.0.0.1 - - [11/Feb/2026 18:32:53] "GET /login HTTP/1.1" 200 -
+2026-02-11 18:33:00,348 - INFO - 127.0.0.1 - - [11/Feb/2026 18:33:00] "[32mGET /reports HTTP/1.1[0m" 302 -
+2026-02-11 18:33:00,350 - INFO - 127.0.0.1 - - [11/Feb/2026 18:33:00] "GET /login HTTP/1.1" 200 -
+2026-02-11 18:33:24,719 - INFO -  * Detected change in 'C:\\Users\\User\\OneDrive\\Documents\\new\\app.py', reloading
+2026-02-11 18:33:24,812 - INFO -  * Restarting with stat
+2026-02-11 18:33:25,371 - INFO - Database health check: PASSED (All tables reachable)
+2026-02-11 18:33:25,383 - WARNING -  * Debugger is active!
+2026-02-11 18:33:25,385 - INFO -  * Debugger PIN: 407-841-079
+2026-02-11 18:33:41,327 - INFO - Accessing Reports Logic...
+2026-02-11 18:33:41,332 - INFO - Stats: active=1, revenue=50.0
+C:\Users\User\OneDrive\Documents\new\app.py:260: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  today = datetime.utcnow().date()
+2026-02-11 18:33:41,334 - INFO - Expiring soon: 0
+2026-02-11 18:33:41,336 - INFO - Monthly data rows: 1
+C:\Users\User\OneDrive\Documents\new\app.py:278: SADeprecationWarning: The Row.t attribute is deprecated in favor of Row._t; all Row methods and library-level attributes are intended to be underscored to avoid name conflicts.  Please use Row._t. (deprecated since: 2.0.19)
+  chart_values = [float(d.t) if d.t is not None else 0.0 for d in monthly_data]
+2026-02-11 18:33:41,336 - ERROR - Report failure: float() argument must be a string or a real number, not 'Row'
+Traceback (most recent call last):
+  File "C:\Users\User\OneDrive\Documents\new\app.py", line 278, in reports
+    chart_values = [float(d.t) if d.t is not None else 0.0 for d in monthly_data]
+                    ~~~~~^^^^^
+TypeError: float() argument must be a string or a real number, not 'Row'
+
+2026-02-11 18:33:41,344 - INFO - 127.0.0.1 - - [11/Feb/2026 18:33:41] "[35m[1mGET /reports HTTP/1.1[0m" 500 -
+2026-02-11 18:34:43,544 - INFO -  * Detected change in 'C:\\Users\\User\\OneDrive\\Documents\\new\\app.py', reloading
+2026-02-11 18:34:43,634 - INFO -  * Restarting with stat
+2026-02-11 18:34:44,196 - INFO - Database health check: PASSED (All tables reachable)
+2026-02-11 18:34:44,209 - WARNING -  * Debugger is active!
+2026-02-11 18:34:44,211 - INFO -  * Debugger PIN: 407-841-079
+C:\Users\User\OneDrive\Documents\new\app.py:259: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  today = datetime.utcnow().date()
+2026-02-11 18:34:52,620 - INFO - 127.0.0.1 - - [11/Feb/2026 18:34:52] "GET /reports HTTP/1.1" 200 -
+2026-02-11 18:34:58,247 - INFO -  * Detected change in 'C:\\Users\\User\\OneDrive\\Documents\\new\\app.py', reloading
+DEBUG: Accessing Reports...
+DEBUG: Labels=['2026-02'], Values=[50.0]
+2026-02-11 18:34:58,338 - INFO -  * Restarting with stat
+2026-02-11 18:34:58,865 - INFO - Database health check: PASSED (All tables reachable)
+2026-02-11 18:34:58,879 - WARNING -  * Debugger is active!
+2026-02-11 18:34:58,881 - INFO -  * Debugger PIN: 407-841-079
+2026-02-11 18:35:08,911 - INFO -  * Detected change in 'C:\\Users\\User\\OneDrive\\Documents\\new\\app.py', reloading
+2026-02-11 18:35:09,009 - INFO -  * Restarting with stat
+2026-02-11 18:35:09,560 - INFO - Database health check: PASSED (All tables reachable)
+2026-02-11 18:35:09,572 - WARNING -  * Debugger is active!
+2026-02-11 18:35:09,574 - INFO -  * Debugger PIN: 407-841-079

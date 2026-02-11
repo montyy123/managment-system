@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card" style="background: none; border: none; box-shadow: none;">
+    <div class="card-header" style="text-align: center; border-bottom: none; display: block; margin-bottom: 2rem;">
+        <h2 style="font-size: 2.5rem; color: #fff; font-weight: 800;"><i class="fas fa-project-diagram"
+                style="color: #ffd32a; margin-right: 15px;"></i>System Data Flow Architecture</h2>
+        <p
+            style="color: var(--text-dim); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-top: 0.5rem;">
+            Real-time node status and data propagation visualization</p>
+    </div>
+
+    <div class="flow-container">
+        <!-- Input Node -->
+        <div class="flow-node highlight" style="border-color: #7d5fff; background: rgba(125, 95, 255, 0.05);">
+            <div class="node-icon" style="color: #7d5fff;"><i class="fas fa-terminal"></i></div>
+            <h4 style="color: #fff; font-size: 0.8rem; letter-spacing: 1px;">MAINTENANCE</h4>
+            <p style="color: var(--text-dim); font-size: 0.7rem;">ADMIN_COMMAND_INPUT</p>
+        </div>
+
+        <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+
+        <!-- Processing Node -->
+        <div class="flow-node active"
+            style="border-color: #00d2ff; background: rgba(0, 210, 255, 0.05); transform: scale(1.1); box-shadow: 0 0 30px rgba(0, 210, 255, 0.15);">
+            <div class="node-icon" style="color: #00d2ff;"><i class="fas fa-database"></i></div>
+            <h4 style="color: #fff; font-size: 0.8rem; letter-spacing: 1px;">CORE_DATABASE</h4>
+            <div class="live-count" style="color: #fff; text-shadow: 0 0 10px #00d2ff;">{{ total }}</div>
+            <p style="color: var(--text-dim); font-size: 0.7rem;">TOTAL_NODES_INDEXED</p>
+        </div>
+
+        <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+
+        <!-- Output Nodes -->
+        <div class="flow-outputs">
+            <div class="flow-node success" style="border-color: #3ae374; background: rgba(58, 227, 116, 0.05);">
+                <div class="node-icon" style="color: #3ae374;"><i class="fas fa-check-double"></i></div>
+                <h4 style="color: #fff; font-size: 0.8rem; letter-spacing: 1px;">ACTIVE_NODES</h4>
+                <div class="live-count" style="color: #3ae374;">{{ active }}</div>
+            </div>
+
+            <div class="flow-node danger"
+                style="margin-top: 1.5rem; border-color: #ff4d4d; background: rgba(255, 77, 77, 0.05);">
+                <div class="node-icon" style="color: #ff4d4d;"><i class="fas fa-unlink"></i></div>
+                <h4 style="color: #fff; font-size: 0.8rem; letter-spacing: 1px;">TERMINATED</h4>
+                <div class="live-count" style="color: #ff4d4d;">{{ cancelled }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-2 text-center" style="margin-top: 4rem;">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+            <i class="fas fa-chevron-left"></i> RETURN TO TERMINAL
+        </a>
+    </div>
+</div>
+
+<style>
+    .flow-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        padding: 4rem 0;
+        flex-wrap: wrap;
+    }
+
+    .flow-node {
+        backdrop-filter: blur(20px);
+        padding: 2.5rem 1.5rem;
+        border-radius: 20px;
+        text-align: center;
+        width: 220px;
+        border: 2px solid transparent;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .flow-node:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    }
+
+    .node-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .live-count {
+        font-size: 2.8rem;
+        font-weight: 800;
+        margin: 1rem 0;
+        font-family: monospace;
+    }
+
+    .flow-arrow {
+        font-size: 2rem;
+        color: rgba(255, 255, 255, 0.1);
+        animation: flowGlow 2s infinite linear;
+    }
+
+    .flow-outputs {
+        display: flex;
+        flex-direction: column;
+    }
+
+    @keyframes flowGlow {
+        0% {
+            color: rgba(255, 255, 255, 0.1);
+            transform: translateX(0);
+        }
+
+        50% {
+            color: #00d2ff;
+            transform: translateX(10px);
+            text-shadow: 0 0 10px #00d2ff;
+        }
+
+        100% {
+            color: rgba(255, 255, 255, 0.1);
+            transform: translateX(0);
+        }
+    }
+
+    @media (max-width: 900px) {
+        .flow-container {
+            flex-direction: column;
+        }
+
+        .flow-arrow {
+            transform: rotate(90deg);
+            animation: flowGlowVertical 2s infinite linear;
+        }
+    }
+
+    @keyframes flowGlowVertical {
+        0% {
+            color: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg) translateX(0);
+        }
+
+        50% {
+            color: #00d2ff;
+            transform: rotate(90deg) translateX(10px);
+            text-shadow: 0 0 10px #00d2ff;
+        }
+
+        100% {
+            color: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg) translateX(0);
+        }
+    }
+</style>
+{% endblock %}

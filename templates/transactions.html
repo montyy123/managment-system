@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 style="font-size: 2rem; color: #fff;"><i class="fas fa-fingerprint"
+                style="color: #7d5fff; margin-right: 15px;"></i>Financial Ledger</h2>
+        <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 0.5rem;">Cryptographic audit trail of all
+            membership revenue events.</p>
+    </div>
+
+    <div class="table-container" style="margin-top: 2.5rem;">
+        <table>
+            <thead>
+                <tr>
+                    <th>TIMESTAMP</th>
+                    <th>ENTITY IDENTITY</th>
+                    <th>ACTION PROTOCOL</th>
+                    <th>REVENUE (USD)</th>
+                    <th>METADATA</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for txn in transactions %}
+                <tr>
+                    <td data-label="TIMESTAMP" style="font-family: monospace; color: var(--text-dim);">{{
+                        txn.date.strftime('%Y-%m-%d | %H:%M') }}</td>
+                    <td data-label="ENTITY IDENTITY">
+                        <strong style="color: #fff;">{{ txn.member.name if txn.member else 'EXPIRED_ENTITY' }}</strong>
+                    </td>
+                    <td data-label="ACTION PROTOCOL">
+                        {% if txn.action == 'New' %}
+                        <span
+                            style="color: #3ae374; font-weight: 700; font-size: 0.75rem; border: 1px solid rgba(58, 227, 116, 0.3); padding: 4px 10px; border-radius: 4px; background: rgba(58, 227, 116, 0.05);">NEW_PROVISION</span>
+                        {% elif txn.action == 'Extend' %}
+                        <span
+                            style="color: #00d2ff; font-weight: 700; font-size: 0.75rem; border: 1px solid rgba(0, 210, 255, 0.3); padding: 4px 10px; border-radius: 4px; background: rgba(0, 210, 255, 0.05);">EXTEND_LIFE</span>
+                        {% else %}
+                        <span
+                            style="color: #ff4d4d; font-weight: 700; font-size: 0.75rem; border: 1px solid rgba(255, 77, 77, 0.3); padding: 4px 10px; border-radius: 4px; background: rgba(255, 77, 77, 0.05);">TERMINATE</span>
+                        {% endif %}
+                    </td>
+                    <td data-label="REVENUE (USD)">
+                        <strong style="color: #ffd32a; font-family: monospace; font-size: 1.1rem;">+ ${{ "%.2f" |
+                            format(txn.amount) }}</strong>
+                    </td>
+                    <td data-label="METADATA" style="color: var(--text-dim); font-style: italic; font-size: 0.85rem;">{{
+                        txn.details }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 4rem; color: var(--text-dim);">
+                        <i class="fas fa-search-dollar"
+                            style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.2;"></i><br>
+                        NO FINANCIAL SIGNALS DETECTED
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

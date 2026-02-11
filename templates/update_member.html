@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card"
+    style="max-width: 650px; margin: 3rem auto; border: 1px solid rgba(125, 95, 255, 0.2); background: rgba(15, 12, 41, 0.6);">
+    <div class="card-header"
+        style="border-bottom: none; text-align: center; display: block; margin-bottom: 2.5rem; padding: 0;">
+        <h2 style="font-size: 2.2rem; color: #fff; letter-spacing: 2px; font-weight: 800;"><i class="fas fa-terminal"
+                style="color: #7d5fff; margin-right: 15px;"></i>NODE OVERRIDE</h2>
+        <p
+            style="color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; margin-top: 0.5rem;">
+            Modifying parameters for entity: {{ member.name }}</p>
+    </div>
+
+    <div
+        style="background: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.1); padding: 1.5rem; border-radius: 12px; margin-bottom: 2.5rem;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div>
+                <small style="color: #00d2ff; text-transform: uppercase; letter-spacing: 1px;">ENTITY ID</small>
+                <div style="font-family: monospace; font-size: 1.1rem; color: #fff;">{{ member.guest_id }}</div>
+            </div>
+            <div>
+                <small style="color: #00d2ff; text-transform: uppercase; letter-spacing: 1px;">CURRENT STATUS</small>
+                <div style="font-weight: 700; color: {{ '#3ae374' if member.status == 'Active' else '#ff4d4d' }};">{{
+                    member.status }}</div>
+            </div>
+            <div
+                style="grid-column: span 2; margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem;">
+                <small style="color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">LIFECYCLE
+                    TERMINATION</small>
+                <div style="color: #fff; font-weight: 600;">{{ member.end_date }}</div>
+            </div>
+        </div>
+    </div>
+
+    <form method="POST">
+        <div class="form-group">
+            <label>OVERRIDE ACTION <span style="color: #ff4d4d;">*</span></label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                <label
+                    style="background: rgba(125, 95, 255, 0.05); border: 1px solid rgba(125, 95, 255, 0.2); padding: 1.2rem; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s;"
+                    id="label-extend">
+                    <input type="radio" id="action_extend" name="action" value="extend" checked
+                        onchange="toggleExtensionOptions()" style="width: auto;">
+                    <span style="color: #fff; font-weight: 600;">EXTEND_LIFE</span>
+                </label>
+                <label
+                    style="background: rgba(255, 77, 77, 0.05); border: 1px solid rgba(255, 77, 77, 0.2); padding: 1.2rem; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s;"
+                    id="label-cancel">
+                    <input type="radio" id="action_cancel" name="action" value="cancel"
+                        onchange="toggleExtensionOptions()" style="width: auto;">
+                    <span style="color: #fff; font-weight: 600;">TERMINATE</span>
+                </label>
+            </div>
+        </div>
+
+        <div id="extension_options" class="form-group"
+            style="background: rgba(125, 95, 255, 0.03); padding: 2rem; border-radius: 15px; border: 1px solid rgba(125, 95, 255, 0.1);">
+            <label style="color: #7d5fff; font-size: 0.75rem;">EXTENSION INCREMENT</label>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; margin-top: 1rem;">
+                <label
+                    style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); padding: 1rem; border-radius: 10px; cursor: pointer; text-align: center;">
+                    <input type="radio" id="ext_6m" name="extension_type" value="6 months" checked
+                        style="margin-bottom: 5px;">
+                    <div style="font-size: 0.8rem; color: #fff;">+6 MO</div>
+                </label>
+                <label
+                    style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); padding: 1rem; border-radius: 10px; cursor: pointer; text-align: center;">
+                    <input type="radio" id="ext_1y" name="extension_type" value="1 year" style="margin-bottom: 5px;">
+                    <div style="font-size: 0.8rem; color: #fff;">+1 YR</div>
+                </label>
+                <label
+                    style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); padding: 1rem; border-radius: 10px; cursor: pointer; text-align: center;">
+                    <input type="radio" id="ext_2y" name="extension_type" value="2 years" style="margin-bottom: 5px;">
+                    <div style="font-size: 0.8rem; color: #fff;">+2 YR</div>
+                </label>
+            </div>
+        </div>
+
+        <div style="margin-top: 3rem; display: flex; gap: 1.5rem;">
+            <button type="submit" class="btn btn-block" id="update-confirm-btn" style="flex: 2; padding: 1.2rem;">
+                <i class="fas fa-sync-alt"></i> COMMIT OVERRIDE
+            </button>
+            <a href="{{ url_for('maintenance') }}" class="btn btn-secondary" id="update-back-btn"
+                style="flex: 1; padding: 1.2rem;">
+                ABORT
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+    function toggleExtensionOptions() {
+        var extendRadio = document.getElementById('action_extend');
+        var optionsDiv = document.getElementById('extension_options');
+        var labelExtend = document.getElementById('label-extend');
+        var labelCancel = document.getElementById('label-cancel');
+
+        if (extendRadio.checked) {
+            optionsDiv.style.display = 'block';
+            labelExtend.style.borderColor = '#7d5fff';
+            labelExtend.style.background = 'rgba(125, 95, 255, 0.15)';
+            labelCancel.style.borderColor = 'rgba(255, 77, 77, 0.2)';
+            labelCancel.style.background = 'rgba(255, 77, 77, 0.05)';
+        } else {
+            optionsDiv.style.display = 'none';
+            labelExtend.style.borderColor = 'rgba(125, 95, 255, 0.2)';
+            labelExtend.style.background = 'rgba(125, 95, 255, 0.05)';
+            labelCancel.style.borderColor = '#ff4d4d';
+            labelCancel.style.background = 'rgba(255, 77, 77, 0.15)';
+        }
+    }
+    window.onload = toggleExtensionOptions;
+</script>
+{% endblock %}

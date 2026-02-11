@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card" style="background: none; border: none; box-shadow: none; padding: 0;">
+    <div class="card-header"
+        style="border-bottom: none; display: flex; align-items: baseline; gap: 1rem; margin-bottom: 3rem;">
+        <h2 style="font-size: 2.5rem; color: #fff; font-weight: 800;"><i class="fas fa-radar"
+                style="color: #00d2ff; margin-right: 15px;"></i>Intelligence Dashboard</h2>
+        <span
+            style="color: var(--text-dim); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px;">Real-time
+            System Telemetry</span>
+    </div>
+
+    <!-- Live Statistics HUD -->
+    <div class="dashboard-grid">
+        <div class="dashboard-card" id="card-active-members"
+            style="background: rgba(58, 227, 116, 0.05); border: 1px solid rgba(58, 227, 116, 0.2); border-left: 5px solid #3ae374;">
+            <i class="fas fa-users"
+                style="font-size: 2.5rem; background: none; -webkit-text-fill-color: #3ae374; color: #3ae374;"></i>
+            <h3 style="color: #3ae374; font-size: 1rem; margin-top: 1rem;">ACTIVE NODES</h3>
+            <p style="font-size: 3.5rem; font-weight: 800; color: #fff; margin-top: 0.5rem; font-family: monospace;">{{
+                active }}</p>
+        </div>
+        <div class="dashboard-card" id="card-total-revenue"
+            style="background: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.2); border-left: 5px solid #00d2ff;">
+            <i class="fas fa-gem"
+                style="font-size: 2.5rem; background: none; -webkit-text-fill-color: #00d2ff; color: #00d2ff;"></i>
+            <h3 style="color: #00d2ff; font-size: 1rem; margin-top: 1rem;">TOTAL REVENUE</h3>
+            <p style="font-size: 3.5rem; font-weight: 800; color: #fff; margin-top: 0.5rem; font-family: monospace;">${{
+                "%.0f" | format(revenue) }}</p>
+        </div>
+        <div class="dashboard-card" id="card-expiring-soon"
+            style="background: rgba(255, 77, 77, 0.05); border: 1px solid rgba(255, 77, 77, 0.2); border-left: 5px solid #ff4d4d;">
+            <i class="fas fa-hourglass-half"
+                style="font-size: 2.5rem; background: none; -webkit-text-fill-color: #ff4d4d; color: #ff4d4d;"></i>
+            <h3 style="color: #ff4d4d; font-size: 1rem; margin-top: 1rem;">EXPIRY WARNINGS</h3>
+            <p style="font-size: 3.5rem; font-weight: 800; color: #fff; margin-top: 0.5rem; font-family: monospace;">{{
+                soon }}</p>
+        </div>
+    </div>
+
+    <!-- Monthly Revenue Graph -->
+    <div class="mt-2 card"
+        style="background: rgba(15, 12, 41, 0.4); padding: 3rem; border: 1px solid var(--glass-border);">
+        <h3 style="margin-bottom: 2rem; color: #fff; font-weight: 700; letter-spacing: 1px;"><i
+                class="fas fa-project-diagram" style="color: #7d5fff; margin-right: 15px;"></i> Revenue Velocity Matrix
+        </h3>
+        <div style="position: relative; height: 350px; width: 100%;">
+            <canvas id="growthChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<div id="chartData" data-labels='{{ labels | tojson }}' data-values='{{ values | tojson }}' style="display: none;">
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    (function () {
+        const dataEl = document.getElementById('chartData');
+        const chartLabels = JSON.parse(dataEl.getAttribute('data-labels') || '[]');
+        const chartValues = JSON.parse(dataEl.getAttribute('data-values') || '[]');
+        const ctx = document.getElementById('growthChart').getContext('2d');
+
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(0, 210, 255, 0.4)');
+        gradient.addColorStop(0.5, 'rgba(125, 95, 255, 0.1)');
+        gradient.addColorStop(1, 'rgba(125, 95, 255, 0)');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: chartLabels.length > 0 ? chartLabels : ['SYNC...'],
+                datasets: [{
+                    label: 'REVENUE',
+                    data: chartValues.length > 0 ? chartValues : [0],
+                    borderColor: '#00d2ff',
+                    backgroundColor: gradient,
+                    borderWidth: 4,
+                    tension: 0.5,
+                    fill: true,
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#00d2ff',
+                    pointBorderWidth: 3,
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#a4b0be',
+                            font: { family: 'monospace', size: 12 },
+                            callback: value => '$' + value
+                        },
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#a4b0be',
+                            font: { family: 'monospace', size: 11 }
+                        },
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+    })();
+</script>
+{% endblock %}

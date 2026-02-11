@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventSys | NexGen Management</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('dashboard') }}" class="brand">
+            <i class="fas fa-bolt" style="margin-right: 10px;"></i>EventSys
+        </a>
+        <div class="nav-links">
+            {% if 'user_id' in session %}
+            <a href="{{ url_for('dashboard') }}" id="nav-dashboard"><i class="fas fa-th-large"></i> Dashboard</a>
+            <a href="{{ url_for('reports') }}" id="nav-reports"><i class="fas fa-chart-bar"></i> Reports</a>
+            <a href="{{ url_for('transactions') }}" id="nav-transactions"><i class="fas fa-money-bill-wave"></i>
+                Transactions</a>
+            {% if session.get('role') == 'admin' %}
+            <a href="{{ url_for('maintenance') }}" id="nav-maintenance"><i class="fas fa-cogs"></i> Maintenance</a>
+            {% endif %}
+            <a href="{{ url_for('logout') }}" id="nav-logout" style="color: #ff4d4d;"><i class="fas fa-power-off"></i>
+                Exit</a>
+            {% else %}
+            <a href="{{ url_for('login') }}" id="nav-login"><i class="fas fa-key"></i> Terminal Login</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container" style="max-width: 1400px; padding: 2rem;">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+            <i class="fas {{ 'fa-check-circle' if category == 'success' else 'fa-exclamation-triangle' }}"></i>
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Chart Link (Required by user) -->
+    <a href="{{ url_for('flow_chart') }}" class="chart-link">
+        <i class="fas fa-project-diagram" style="margin-right: 10px;"></i>View Flow Chart
+    </a>
+
+</body>
+
+</html>
